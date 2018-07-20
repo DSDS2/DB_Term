@@ -85,17 +85,54 @@ class ConcertManagement:
                 ,self.reset_database
                 ]
         self.menu_func[sel-1]()
-    
+    def formatted_print(self, records, col_names=[]):
+#         col_names=['id', 'name', ...]
+#         records=[{'id':'12', 'name':'aaaa bbb', ...}, ...]
+        if len(col_names)>0 and len(col_names)!=len(records) : 
+            self.print_msg("ERROR", "formatted print error: length missmatch between column and records")
+            return None
+        keys = records[0].keys()
+        key_dict={}        
+        for r in records:
+#             print(r)
+            for key in keys:
+                if key_dict.__contains__(key)==False:                     
+                    key_dict[key]=len(key)
+                if key_dict[key] < len(str(r[key])): key_dict[key]=len(r[key])
+        dividebar=""
+        format_str = ""  
+#         print(key_dict)      
+        for key in keys:            
+            format_str+= "%"+str(key_dict[key])+"s\t"
+            dividebar+='-'*(key_dict[key]+4) 
+        formatted_str=""
+        if len(col_names) > 0 : 
+            formatted_str+=format_str%(col_names) +"\n"
+        
+        for r in records:
+            print(format_str,"---------",r.values())
+            vstr = ''
+            print(list(r.values()))
+            for i in range(0, len( list(r.values()))):    
+                print(list(r.values())[i])            
+                vstr+="'"+str(list(r.values())[i])+"'"
+                if( i< len(r.values())-1 ): vstr+=','
+            formatted_str+=format_str%(vstr) +"\n"    
+                
+        return formatted_str    
+        
     def print_all_buildings(self):
         print("#1")
 #         print(self.send_query("SELECT * FROM audience;"))
 #         result = self.send_query("SELECT * FROM audience;")        
         result = self.send_query("SELECT * FROM audience WHERE a_id='%s';", 2)
-        print('--------------------------------------------')        
-        print('id', 'name', 'age', sep='\t')
-        for r in result:            
-            print(r['a_id'], r['a_name'], r['a_age'], sep='\t')
-        print('--------------------------------------------')    
+        print(self.formatted_print(result))
+#         print('--------------------------------------------')
+#         format_str= "%2s\t%20s\t%10s"                
+#         print(format_str%('id', 'name', 'age'))
+#         for r in result:
+#             print(format_str%(r['a_id'], r['a_name'],r['a_age'] ))
+#         print('--------------------------------------------')    
         pass    
     def print_all_performances(self):
         print("#2")
