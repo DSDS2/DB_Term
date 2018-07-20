@@ -22,6 +22,7 @@ if __name__ == '__main__':
     13. print all audiences who booked for a performance
     14. print ticket booking status of a performance
     15. exit
-    16. reset database
+    16. reset database1
     ============================================================
     ''')
+    print('te111st')
