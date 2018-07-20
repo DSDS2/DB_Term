@@ -1,7 +1,7 @@
 '''
 Created on 2018. 7. 19.
 
-@author: 6조, 박중규, 민경학 , 박용훈
+@author: 6議�, 諛뺤쨷洹�, 誘쇨꼍�븰 , 諛뺤슜�썕
 '''
 import pymysql
 class ConcertManagement:
@@ -100,39 +100,35 @@ class ConcertManagement:
                     key_dict[key]=len(key)
                 if key_dict[key] < len(str(r[key])): key_dict[key]=len(r[key])
         dividebar=""
-        format_str = ""  
-#         print(key_dict)      
-        for key in keys:            
-            format_str+= "%"+str(key_dict[key])+"s\t"
-            dividebar+='-'*(key_dict[key]+4) 
-        formatted_str=""
-        if len(col_names) > 0 : 
-            formatted_str+=format_str%(col_names) +"\n"
-        
+        table_head = ""  
+        formatted_str=""  
+        if len(col_names) > 0 :
+            pass 
+#             formatted_str+=table_head%(*col_names) +"\n"
+        else: 
+            i=0
+            for i in range(0,len(keys)):    
+                table_head+="{"+str(i)+":>"+str(key_dict[list(keys)[i]])+"}\t"                
+            table_head=table_head.format(*list(keys))    +"\n"
+            
+        format_str = ""
+        for key in keys:
+            format_str+="{"+str(key)+":>"+str(key_dict[key])+"}\t"
+            dividebar+='-'*(key_dict[key]+5)
+            
+          
         for r in records:
-            print(format_str,"---------",r.values())
-            vstr = ''
-            print(list(r.values()))
-            for i in range(0, len( list(r.values()))):    
-                print(list(r.values())[i])            
-                vstr+="'"+str(list(r.values())[i])+"'"
-                if( i< len(r.values())-1 ): vstr+=','
-            formatted_str+=format_str%(vstr) +"\n"    
+            formatted_str+=format_str.format(**r)    +"\n"
+        
+        formatted_str=dividebar+"\n"+table_head+dividebar+"\n"+formatted_str+dividebar+"\n"
                 
         return formatted_str    
         
     def print_all_buildings(self):
         print("#1")
-#         print(self.send_query("SELECT * FROM audience;"))
-#         result = self.send_query("SELECT * FROM audience;")        
-        result = self.send_query("SELECT * FROM audience WHERE a_id='%s';", 2)
+        result = self.send_query("SELECT * FROM audience;")        
         print(self.formatted_print(result))
-#         print('--------------------------------------------')
-#         format_str= "%2s\t%20s\t%10s"                
-#         print(format_str%('id', 'name', 'age'))
-#         for r in result:
-#             print(format_str%(r['a_id'], r['a_name'],r['a_age'] ))
-#         print('--------------------------------------------')    
+        input("Press any key to continue...")
         pass    
     def print_all_performances(self):
         print("#2")
@@ -168,7 +164,8 @@ class ConcertManagement:
     def reset_database(self):
         pass
     
-if __name__ == '__main__':
+if __name__ == '__main__':    
+  
     isRun = True
     while isRun:
         cm = ConcertManagement()
@@ -179,7 +176,7 @@ if __name__ == '__main__':
             if sel <1 or sel>16:
               raise ValueError
         except ValueError as e:
-            cm.print_msg("ERROR", "(1~16) 사이의 숫자만 입력해주세요")
+            cm.print_msg("ERROR", "Input number in range (1~16) ")
             input("Press any key to continue...")
         except Exception as e:
             print(e)
