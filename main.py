@@ -94,7 +94,6 @@ class ConcertManagement:
         keys = records[0].keys()
         key_dict={}        
         for r in records:
-#             print(r)
             for key in keys:
                 if key_dict.__contains__(key)==False:                     
                     key_dict[key]=len(key)
@@ -114,8 +113,7 @@ class ConcertManagement:
         format_str = ""
         for key in keys:
             format_str+="{"+str(key)+":>"+str(key_dict[key])+"}\t"
-            dividebar+='-'*(key_dict[key]+5)
-            
+            dividebar+='-'*(key_dict[key]+5)            
           
         for r in records:
             formatted_str+=format_str.format(**r)    +"\n"
