@@ -8,7 +8,7 @@ Created on 2018. 7. 19.https://lh3.googleusercontent.com/a/default-user=s128
 import pymysql
 
 
-IS_DEBUG=True
+IS_DEBUG=False
 def print_debug_msg(*msg):
     if IS_DEBUG: print('[DEBUG] ',msg)
 
@@ -295,7 +295,7 @@ class ConcertManagement:
                                      ' WHERE perf_build.b_id = building.b_id AND p_id=%s '%p_id)
         print_debug_msg('perf_build & building:', per_result)
         capa=0
-        print(len(per_result))
+        #print(len(per_result))
         if len(per_result)==1: capa=per_result[0]['b_cap']  
         RETURN_MSG=''      
         if len(per_result) == 0: IS_SUCCESS, RETURN_MSG=False, 'PERFORMANCE_ID_IS_NOT_EXIST'
